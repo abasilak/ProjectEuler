@@ -23,6 +23,12 @@
 using namespace std::chrono; 
 #endif 
 
+int sum_of(int x, int n)
+{
+    int    p = n/x;
+    return x * (p*(p+1))/2;
+}
+
 int main (int argc, char *argv[])
 {
     if (argc < 2) {
@@ -43,12 +49,27 @@ int main (int argc, char *argv[])
         if(i%3 == 0 || i%5 == 0)
             _sum += i;
     }
-	
-	std::cout << "Solution(" << _n << "): " << _sum << std::endl;
-    
+    std::cout << "Solution(" << _n << "): " << _sum << std::endl;
+
 #ifdef EXECUTION_TIME_COMPUTATION
     auto stop     = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(stop - start); 
+    auto duration = duration_cast<microseconds>(stop - start); 
+	
+	std::cout << "Time: " << duration.count() << " ms" << std::endl;
+#endif
+
+// Solution (fast)
+#ifdef EXECUTION_TIME_COMPUTATION
+    start = high_resolution_clock::now(); 
+#endif
+
+    _sum = sum_of(3,_n-1) + sum_of(5,_n-1) - sum_of(15,_n-1);  
+
+    std::cout << "Solution(" << _n << "): " << _sum << std::endl;
+    
+#ifdef EXECUTION_TIME_COMPUTATION
+    stop     = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start); 
 	
 	std::cout << "Time: " << duration.count() << " ms" << std::endl;
 #endif
