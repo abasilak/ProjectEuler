@@ -1,10 +1,10 @@
 /**
- * @file       solution2.cpp
+ * @file       solution3.cpp
  * @author     Andreas Vasilakis
  * @date       10/03/2019
  * @version    1.0
  * 
- * @brief      Even Fibonacci numbers
+ * @brief      Largest prime factor
  * 
  * @scope
  * 
@@ -24,9 +24,21 @@
 using namespace std::chrono; 
 #endif 
 
-int fibonacci(int n)
+long maxPrimeFactor(long n)
 {
-    return (n == 0 || n == 1) ? n+1 : fibonacci(n-1) + fibonacci(n-2);
+    long _max = 1;
+    for(long i = 2; i < n/i; i++) {
+        while(n%i == 0) {
+            _max = std::max(_max, i);
+            n = n/i;
+        }
+    }
+
+    if(n > 0) {
+        _max = std::max(_max, n);
+    }
+
+    return _max;
 }
 
 int main (int argc, char *argv[])
@@ -37,23 +49,16 @@ int main (int argc, char *argv[])
     }
     
     const std::string _name = std::string(argv[0]);
-    const int         _n    = std::stoi(argv[1]);
+    const long         _n    = std::stol(argv[1]);
     
 #ifdef EXECUTION_TIME_COMPUTATION
     auto start = high_resolution_clock::now(); 
 #endif
     
 // Solution (naive)
-    int _i   = 1;
-    int _sum = 0;
-    int _f   = 0;
-    while(_f < _n) {
-        _sum += _f;
-        _f    = fibonacci(_i);
-        _i += 3;
-    }
+    long _max = maxPrimeFactor(_n);
 
-    std::cout << "Solution(" << _n << "): " << _sum << std::endl;
+    std::cout << "Solution(" << _n << "): " << _max << std::endl;
 
 #ifdef EXECUTION_TIME_COMPUTATION
     auto stop     = high_resolution_clock::now();
@@ -61,33 +66,6 @@ int main (int argc, char *argv[])
 	
 	std::cout << "Time: " << duration.count() << " ms" << std::endl;
 #endif
-
-
-#ifdef EXECUTION_TIME_COMPUTATION
-    start = high_resolution_clock::now(); 
-#endif
-    
-// Solution (fast)
-    int _a   = 1;
-    int _b   = 1;
-    int _c   = 2;
-    _sum = 0;
-    while(_c < _n) {
-        _sum += _c;
-        _a    = _b + _c;
-        _b    = _c + _a;
-        _c    = _a + _b;
-    }
-
-    std::cout << "Solution(" << _n << "): " << _sum << std::endl;
-
-#ifdef EXECUTION_TIME_COMPUTATION
-    stop     = high_resolution_clock::now();
-    duration = duration_cast<microseconds>(stop - start); 
-	
-	std::cout << "Time: " << duration.count() << " ms" << std::endl;
-#endif
-
 
     return 0;
 }
