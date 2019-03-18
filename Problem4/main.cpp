@@ -22,6 +22,30 @@
 using namespace std::chrono; 
 #endif 
 
+bool IsPalindrome(int p)
+{
+    std::string _s = std::to_string(p);
+    for (int i = 0; i<=_s.length()/2; i++) {
+        if(_s[i] != _s[_s.length()-1-i])
+            return false;
+    }
+    return true;
+}
+
+int maxPalindrome2(void)
+{
+    int _max = 0;
+    for(int x = 999; x >=100 ; --x){
+        for(int y = 999; y >=100 ; --y) {
+
+            int _pal = x*y;
+            if(_pal > _max && IsPalindrome(_pal))
+                _max = _pal;
+        }
+    }
+    return _max;
+}
+
 int maxPalindrome(void)
 {
     int _max = 0;
@@ -84,6 +108,21 @@ int main (int argc, char *argv[])
 	
 	std::cout << "Time: " << duration.count() << " ms" << std::endl;
 #endif
+
+#ifdef EXECUTION_TIME_COMPUTATION
+    start = high_resolution_clock::now(); 
+#endif
+    
+// Solution (faster)
+    std::cout << "Solution: " << maxPalindrome2() << std::endl;
+
+#ifdef EXECUTION_TIME_COMPUTATION
+    stop     = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start); 
+	
+	std::cout << "Time: " << duration.count() << " ms" << std::endl;
+#endif
+
 
     return 0;
 }
