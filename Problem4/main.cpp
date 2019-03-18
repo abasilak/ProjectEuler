@@ -22,37 +22,8 @@
 using namespace std::chrono; 
 #endif 
 
-long maxPrimeFactor(long n)
+int maxPalindrome(void)
 {
-    long _max = 1;
-    for(long i = 2; i < n/i; i++) {
-        while(n%i == 0) {
-            _max = std::max(_max, i);
-            n = n/i;
-        }
-    }
-
-    if(n > 0) {
-        _max = std::max(_max, n);
-    }
-
-    return _max;
-}
-
-int main (int argc, char *argv[])
-{
-    if (argc < 1) {
-        std::cerr << "Usage: " << " n \n";
-        return 1;
-    }
-    
-    const std::string _name = std::string(argv[0]);
-    
-#ifdef EXECUTION_TIME_COMPUTATION
-    auto start = high_resolution_clock::now(); 
-#endif
-    
-// Solution (naive)
     int _max = 0;
     bool found = false;
     for(int i = 9; i >= 0; --i)
@@ -88,7 +59,24 @@ int main (int argc, char *argv[])
             break;
     }
 
-    std::cout << "Solution: " << _max << std::endl;
+    return _max;
+}
+
+int main (int argc, char *argv[])
+{
+    if (argc < 1) {
+        std::cerr << "Usage: " << " n \n";
+        return 1;
+    }
+    
+    const std::string _name = std::string(argv[0]);
+    
+#ifdef EXECUTION_TIME_COMPUTATION
+    auto start = high_resolution_clock::now(); 
+#endif
+    
+// Solution (naive)
+    std::cout << "Solution: " << maxPalindrome() << std::endl;
 
 #ifdef EXECUTION_TIME_COMPUTATION
     auto stop     = high_resolution_clock::now();
